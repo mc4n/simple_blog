@@ -26,9 +26,9 @@ class CategoryController extends Controller
         ]);
         $valid = $validator->validated();
         if ($valid) {
-            $n_tag = new Category;
-            $n_tag->name = $valid['name'];
-            $n_tag->save();
+            $n_category = new Category;
+            $n_category->name = $valid['name'];
+            $n_category->save();
             return redirect()->route('admin.categories.index');
         } else {
             return back()->route('admin.categories.create');
@@ -51,9 +51,9 @@ class CategoryController extends Controller
             'name' => 'required|max:150',
         ]);
         $valid = $validator->validated();
-        if ($valid && ($u_tag = Category::find($id))) {;
-            $u_tag->name = $valid['name'];
-            $u_tag->save();
+        if ($valid && ($u_category = Category::find($id))) {;
+            $u_category->name = $valid['name'];
+            $u_category->save();
             return redirect()->route('admin.categories.index');
         }
         return redirect()->route('admin.categories.edit');

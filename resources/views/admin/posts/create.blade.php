@@ -7,13 +7,13 @@
             </div>
 
             <div class="card-body">
-                <form method="POST" action="{{ route("admin.posts.store") }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('admin.posts.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label class="required" for="title">Title</label>
                         <input class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" type="text"
-                               name="title" id="title" value="{{ old('title') }}" required>
-                        @if($errors->has('title'))
+                            name="title" id="title" value="{{ old('title') }}" required>
+                        @if ($errors->has('title'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('title') }}
                             </div>
@@ -23,8 +23,8 @@
                     <div class="form-group">
                         <label class="required" for="image">Image</label>
                         <input class="form-control {{ $errors->has('image') ? 'is-invalid' : '' }}" type="file"
-                               name="image" id="image" value="{{ old('image') }}">
-                        @if($errors->has('image'))
+                            name="image" id="image" value="{{ old('image') }}">
+                        @if ($errors->has('image'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('image') }}
                             </div>
@@ -34,25 +34,25 @@
                     <div class="form-group">
                         <label class="required" for="tags">Tags</label>
                         <input class="form-control {{ $errors->has('tags') ? 'is-invalid' : '' }}" type="text"
-                               name="tags" id="tags" value="{{ old('tags') }}" required>
-                        @if($errors->has('tags'))
+                            name="tags" id="tags" value="{{ old('tags') }}" required>
+                        @if ($errors->has('tags'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('tags') }}
                             </div>
                         @endif
-                        <span class="help-block">Separated by comma</span>
+                        <span class="help-block">(Separated by comma)</span>
                     </div>
                     <div class="form-group">
                         <label class="required" for="category">Category</label>
                         <select class="form-control {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category"
-                                id="category" required>
-                            <option value="0">--- SELECT CATEGORY ---</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}"
-                                    @if ($category->id == old('category')) selected @endif>{{ $category->name }}</option>
+                            id="category" required>
+                            <option value="0">-</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" @if ($category->id == old('category')) selected @endif>
+                                    {{ $category->name }}</option>
                             @endforeach
                         </select>
-                        @if($errors->has('category'))
+                        @if ($errors->has('category'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('category') }}
                             </div>
@@ -60,12 +60,11 @@
                         <span class="help-block"></span>
                     </div>
                     <div class="form-group">
-                        <label for="post">Post</label>
-                        <textarea class="form-control {{ $errors->has('post') ? 'is-invalid' : '' }}" name="post"
-                                  id="post">{{ old('post') }}</textarea>
-                        @if($errors->has('post'))
+                        <label for="body">Post</label>
+                        <textarea class="form-control {{ $errors->has('body') ? 'is-invalid' : '' }}" name="body" id="body">{{ old('body') }}</textarea>
+                        @if ($errors->has('body'))
                             <div class="invalid-feedback">
-                                {{ $errors->first('post') }}
+                                {{ $errors->first('body') }}
                             </div>
                         @endif
                         <span class="help-block"></span>

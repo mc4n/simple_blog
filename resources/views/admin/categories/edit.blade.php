@@ -8,11 +8,11 @@
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
-            <form class="form" action={{ route('admin.tags.update', $tag) }} method="POST">
+            <form class="form" action={{ route('admin.categories.update', $category) }} method="POST">
                 @csrf
                 @method('PUT')
                 <div class="col-sm-10">
-                    <input class="form-control" name="name" placeholder="Name" value="{{ old('name', $tag->name) }}"
+                    <input class="form-control" name="name" placeholder="Name" value="{{ old('name', $category->name) }}"
                         required>
                     <button type="submit" class="btn btn-primary mb-2">Update</button>
                 </div>
