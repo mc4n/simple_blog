@@ -48,7 +48,7 @@
                         <select class="form-control {{ $errors->has('project') ? 'is-invalid' : '' }}" name="category"
                             id="category" required>
 
-                            <option value="#">-</option>
+                            
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}" @if (old('category') == $category->id || $category->id == $post->category_id) selected @endif>
                                     {{ $category->name }}</option>
