@@ -2,84 +2,67 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Tag;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class TagController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        return view('admin.tags.index', ['tags' => Tag::paginate(30)]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('admin.tags.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:150',
+        ]);
+        $valid = $validator->validated();
+        if ($valid) {
+            $n_tag = new Tag;
+            $n_tag->name = $valid['name'];
+            $n_tag->save();
+            return redirect()->route('admin.tags.index');
+        } else {
+            return back()->route('admin.tags.create');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(Tag $tag)
     {
-        //
+        return view('admin.tags.edit', compact('tag'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:150',
+        ]);
+        $valid = $validator->validated();
+        if ($valid && ($u_tag = Tag::find($id))) {;
+            $u_tag->name = $valid['name'];
+            $u_tag->save();
+            return redirect()->route('admin.tags.index');
+        }
+        return redirect()->route('admin.tags.edit');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Tag $tag)
     {
-        //
+        foreach ($tag->posts as $post) $post->tags()->detach($tag);
+        if (!$tag->posts()->count()) $tag->delete();
+        return redirect()->route('admin.tags.index');
     }
 }
